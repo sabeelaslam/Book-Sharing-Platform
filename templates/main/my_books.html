@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+
+{% block title %}My Books - Book Sharing Platform{% endblock %}
+
+{% block content %}
+<div class="mb-4">
+    <h3 class="fw-bold mb-1">My Books</h3>
+    <p class="text-muted">Books you have shared with the community</p>
+</div>
+
+<!-- Physical Books Section -->
+<div class="mb-5">
+    <h4 class="fw-bold mb-3 pb-2 border-bottom text-danger"><i class="bi bi-book me-2"></i>Physical Books</h4>
+    
+    <!-- Vertical Stack for Horizontal Tiles -->
+    <div class="d-flex flex-column gap-3">
+        {% set physical_books = books | selectattr('type', 'equalto', 'Physical') | list %}
+        {% for book in physical_books %}
+        <div class="card border-0 shadow-sm book-card-hover rounded-3">
+            <div class="card-body d-flex flex-column flex-md-row align-items-md-center p-3 gap-3">
+                
+                <!-- Info Section -->
+                <div class="flex-grow-1">
+                    <div class="mb-1">
+                    </div>
+                    <h5 class="fw-bold mb-1">{{ book.title }}</h5>
+                    <p class="text-muted small mb-1"><i class="bi bi-person me-1"></i>{{ book.author }}</p>
+                    <p class="text-muted small mb-0">
+                    <span class="badge bg-primary me-2">{{ book.category }}</span>
+                    <i class="bi bi-calendar3 me-1"></i> Added: {{ book.created_at.strftime('%Y-%m-%d') if book.created_at else 'Unknown' }}
+                    </p>
+                </div>
+
+                <!-- Actions Section -->
+                <div class="d-flex align-items-center gap-3">
+                    <form action="{{ url_for('main.update_book_status', book_id=book.book_id) }}" method="POST" class="m-0">
+                        <div class="input-group input-group-sm">
+                            <span class="input-group-text bg-light border-0">Status</span>
+                            <select name="status" class="form-select bg-light border-0 fw-semibold" onchange="this.form.submit()">
+                                <option value="Available" {% if book.book_status == 'Available' %}selected{% endif %}>Available</option>
+                                <option value="Borrowed" {% if book.book_status == 'Borrowed' %}selected{% endif %}>Borrowed</option>
+                            </select>
+                        </div>
+                    </form>
+                    
+                    <a href="{{ url_for('main.edit_book', book_id=book.book_id) }}" class="btn btn-sm btn-outline-secondary border-0 p-2" title="Edit Book">
+                        <i class="bi bi-pencil-square"></i>
+                    </a>
+
+                    <form action="{{ url_for('main.delete_book', book_id=book.book_id) }}" method="POST" class="m-0" onsubmit="return confirm('Are you sure you want to delete this book?');">
+                        <button type="submit" class="btn btn-sm btn-outline-danger border-0 p-2" title="Delete Book">
+                            <i class="bi bi-trash3-fill"></i>
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+        {% else %}
+        <div class="text-center py-4 bg-white rounded-3 shadow-sm">
+            <p class="text-muted mb-0">You haven't added any physical books yet.</p>
+            <a href="{{ url_for('main.add_book') }}" class="btn btn-sm btn-outline-primary mt-2">Add a Physical Book</a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Digital Books Section -->
+<div class="mb-5">
+    <h4 class="fw-bold mb-3 pb-2 border-bottom text-primary"><i class="bi bi-display me-2"></i>Digital Books</h4>
+    
+    <!-- Vertical Stack for Horizontal Tiles -->
+    <div class="d-flex flex-column gap-3">
+        {% set digital_books = books | selectattr('type', 'equalto', 'Digital') | list %}
+        {% for book in digital_books %}
+        <div class="card border-0 shadow-sm book-card-hover rounded-3">
+            <div class="card-body d-flex flex-column flex-md-row align-items-md-center p-3 gap-3">
+                
+                <!-- Info Section -->
+                <div class="flex-grow-1">
+                    <h5 class="fw-bold mb-1">{{ book.title }}</h5>
+                    <p class="text-muted small mb-1"><i class="bi bi-person me-1"></i>{{ book.author }}</p>
+                    <p class="text-muted small mb-0">
+                        <span class="badge bg-primary me-2">{{ book.category }}</span>
+                        <i class="bi bi-calendar3 me-1"></i> Added: {{ book.created_at.strftime('%Y-%m-%d') if book.created_at else 'Unknown' }}
+                    </p>
+                </div>
+
+                <!-- Actions Section -->
+                <div class="d-flex align-items-center gap-3">
+                    <span class="badge bg-light border border-success border-opacity-25 px-3 py-2">
+                        {% if book.book_status == 'Available' %}
+                        <i class="text-success">Available</i>
+                        {% else  %}
+                        <i class="text-danger">Borrowed</i>
+                                        {% endif %}
+                    </span>
+
+                    {% if book.digital_link %}
+                    <a href="{{ book.digital_link }}" target="_blank" class="btn btn-sm btn-outline-primary fw-semibold">
+                        <i class="bi bi-box-arrow-up-right m-1"></i> Link
+                    </a>
+                    {% endif %}
+                    
+                    <a href="{{ url_for('main.edit_book', book_id=book.book_id) }}" class="btn btn-sm btn-outline-secondary border-0 p-2" title="Edit Book">
+                        <i class="bi bi-pencil-square"></i>
+                    </a>
+
+                    <form action="{{ url_for('main.delete_book', book_id=book.book_id) }}" method="POST" class="m-0" onsubmit="return confirm('Are you sure you want to delete this book?');">
+                        <button type="submit" class="btn btn-sm btn-outline-danger border-0 p-2" title="Delete Book">
+                            <i class="bi bi-trash3-fill"></i>
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+        {% else %}
+        <div class="text-center py-4 bg-white rounded-3 shadow-sm">
+            <p class="text-muted mb-0">You haven't added any digital books yet.</p>
+            <a href="{{ url_for('main.add_book') }}" class="btn btn-sm btn-outline-primary mt-2">Add a Digital Book</a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

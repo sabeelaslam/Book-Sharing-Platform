@@ -1,0 +1,75 @@
+/* Minimal Global Style Extensions using Bootstrap */
+:root {
+    --bs-primary: #4f46e5;
+    --bs-primary-rgb: 79, 70, 229;
+}
+
+body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    overflow-x: hidden;
+}
+
+.bg-gradient-primary {
+    background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%) !important;   
+}
+
+.text-primary {
+    color: #4f46e5 !important;
+}
+
+.btn-primary {
+    background-color: #4f46e5;
+    border-color: #4f46e5;
+}
+
+.btn-primary:hover {
+    background-color: #4338ca;
+    border-color: #4338ca;
+}
+
+.hover-bg-light:hover {
+    background-color: #f8f9fa;
+}
+
+.book-card-hover {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.book-card-hover:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+}
+
+/* Custom Tab Styling */
+.nav-tabs .nav-link {
+    color: #6c757d;
+    border: none !important;
+    padding: 0.75rem 1.25rem;
+    transition: all 0.2s ease-in-out;
+}
+.nav-tabs .nav-link:hover {
+    color: #0d6efd;
+    background-color: #f8f9fa;
+}
+.nav-tabs .nav-link.active {
+    color: #0d6efd !important;
+    background-color: #e9ecef !important;
+    border: none !important;
+}
+
+/* Admin Dashboard Cards */
+.admin-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: none;
+    border-radius: 15px;
+}
+.admin-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.15) !important;
+}
+.bg-gradient-primary-card {
+    background: linear-gradient(135deg, #4e73df 0%, #224abe 100%);
+}
+.bg-gradient-success-card {
+    background: linear-gradient(135deg, #1cc88a 0%, #13855c 100%);
+}

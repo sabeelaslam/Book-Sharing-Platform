@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block title %}Borrow Request - Book Sharing Platform{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-12 col-md-10 col-lg-8 col-xl-6">
+
+        <!-- Page Heading -->
+        <div class="m-3 text-center">
+            <h3 class="fw-bold mb-0">Borrow Request Form</h3>
+            <p class="text-muted small mb-0">Propose exchange for <span class="text-primary fw-bold">"{{ book.title }}"</span></p>
+        </div>
+
+        <!-- Form Card -->
+        <div class="card border-0 shadow-sm rounded-3">
+            <div class="card-body p-2 p-md-3">
+
+                {% if book.owner_notes %}
+                <!-- Owner Notes -->
+                <div class="alert alert-info py-3 px-3 mb-4 rounded-3 border-0 d-flex gap-2">
+                    <i class="bi bi-info-circle-fill text-primary mt-1"></i>
+                    <div>
+                        <strong class="d-block text-primary mb-1">Owner's Availability Notes</strong>
+                        <span class="small text-dark">{{ book.owner_notes }}</span>
+                    </div>
+                </div>
+                {% endif %}
+
+                <form action="#" method="POST">
+                    
+                    <!-- Proposed Date -->
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Proposed Date</label>
+                        <input type="date" class="form-control bg-light border-0 px-3 py-2" id="dateInput" name="proposed_date" required>
+                    </div>
+
+                    <!-- Proposed Time -->
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Proposed Time</label>
+                        <input type="time" class="form-control bg-light border-0 px-3 py-2" id="timeInput" name="proposed_time" required>
+                    </div>
+
+                    <!-- Location -->
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Location</label>
+                        <input type="text" class="form-control bg-light border-0 px-3 py-2" name="location" placeholder="Enter meeting location" required>
+                    </div>
+
+                    <!-- Message to Owner -->
+                    <div class="mb-4">
+                        <label class="form-label fw-semibold">Message to Owner (Optional)</label>
+                        <textarea class="form-control bg-light border-0 px-3 py-2" name="message" rows="4" placeholder="Write your message to the book owner..."></textarea>
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="d-flex gap-3 flex-column flex-sm-row mt-4">
+                        <button type="submit" class="btn btn-primary flex-fill px-4 py-2 fw-semibold rounded-pill">Submit Request</button>
+                        <a href="{{ url_for('main.home') }}" class="btn btn-light border flex-fill px-4 py-2 fw-semibold rounded-pill text-decoration-none text-dark text-center">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
